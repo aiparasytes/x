@@ -11,7 +11,7 @@ export default function XNeuron() {
         transform: "translateX(-50%)",
         color: "black",
         padding: "10px 20px",
-        fontSize: "50px",
+        fontSize: "35px",
         zIndex: 10
       }}>
         AI Parasytes
