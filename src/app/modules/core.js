@@ -6,7 +6,7 @@ export default function XNeuron() {
       {/* Header con fondo sutil */}
       <div className="absolute top-5 left-0 w-full flex justify-center p-2 z-20">
         <div className="">
-          <h1 className="text-lg md:text-5xl font-bold text-black">
+          <h1 className="text-2xl md:text-5xl font-bold text-black">
             <span className="text-blue-500">AI</span>Parasytes
           </h1>
         </div>
