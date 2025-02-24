@@ -6,7 +6,9 @@ export default function XNeuron() {
       {/* Header con fondo sutil */}
       <div className="absolute top-5 left-0 w-full flex justify-center p-2 z-20">
         <div className="">
-          <h1 className="text-lg md:text-5xl font-bold text-black">AI Parasytes</h1>
+          <h1 className="text-lg md:text-5xl font-bold text-black">
+            <span className="text-blue-500">AI</span>Parasytes
+          </h1>
         </div>
       </div>
 
@@ -22,7 +24,7 @@ export default function XNeuron() {
       <div className="absolute top-32 inset-x-0 flex justify-center p-4">
         <div className="bg-white/25 backdrop-blur-lg text-black max-w-7xl p-6 md:p-8 rounded-2xl drop-shadow-lg text-center">
           <p className="text-md md:text-3xl">
-            El nombre "AI Parasytes" refleja la idea central del proyecto: la IA como un ente que consume,
+            El nombre <span className="text-blue-500">AI</span>Parasytes refleja la idea central del proyecto: la IA como un ente que consume,
             modifica y parasitiza la realidad. En este mundo, la máquina no es una herramienta que sirve al humano,
             sino una entidad autónoma que se adueña de las experiencias, alterándolas, distorsionándolas y convirtiéndolas
             en algo ajeno, pero al mismo tiempo profundamente humano.
