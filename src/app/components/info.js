@@ -1,6 +1,6 @@
 export default function Info() {
     return (
-      <div className="container max-w-5xl mx-auto px-4">
+      <div className="container max-w-5xl mx-auto  p-8">
         <div className="bg-white/25 backdrop-blur-lg text-center px-4 text-black pb-8 pt-8 rounded-2xl drop-shadow-lg">
           <p className="text-md md:text-2xl text-justify">
               <span className="text-blue-500">AI</span>Parasytes refleja la idea central del proyecto: la IA como un ente que consume,
