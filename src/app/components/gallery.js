@@ -20,7 +20,15 @@ export default function Gallery() {
         priority
       />
       <Image
-        src="/gallery/06.png"
+        src="/gallery/08.png"
+        alt="Image 3"
+        width={600}  // Ajusta el tamaño según tu imagen
+        height={400} // Ajusta el tamaño según tu imagen
+        className="w-full h-auto rounded-lg"
+        priority
+      />
+      <Image
+        src="/gallery/09.png"
         alt="Image 3"
         width={600}  // Ajusta el tamaño según tu imagen
         height={400} // Ajusta el tamaño según tu imagen
