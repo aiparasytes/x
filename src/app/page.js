@@ -22,7 +22,7 @@ export default function Home() {
 
        {/* Background Video */}
        <section className="relative w-full z-30">
-        <BackgroundVideo src="/gallery/aiparasytes_xx.mp4"/>
+        
       </section>
     </div>
   );
