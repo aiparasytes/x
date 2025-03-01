@@ -22,7 +22,7 @@ export default function Home() {
 
        {/* Background Video */}
        <section className="relative w-full z-30">
-        
+       <BackgroundVideo src="/gallery/x_x_x_x.mp4"/>
       </section>
     </div>
   );
