@@ -6,9 +6,9 @@ export default function Gallery() {
   ];
 
   return (
-    <div className="relative z-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-8">
+    <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-8">
       {images.map((img, index) => (
-        <div key={index} className="w-full h-auto overflow-hidden rounded-lg">
+        <div key={index} className="w-full h-auto overflow-hidden rounded-lg ">
           <Image
             src={`/gallery/${img}`}
             alt={`Image ${index + 1}`}
