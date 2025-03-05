@@ -2,7 +2,7 @@ import Header from './components/header'
 import Info from './components/info'
 import Gallery from './components/gallery'
 import P5Canvas from './components/p5js'
-import BackgroundVideo from './components/bgvideo'
+import SetVideo from './components/video'
 import HydraCanvas from './components/hydra'
 import Sidebar from './components/sidebar'
 
@@ -22,9 +22,9 @@ export default function Home() {
       {/* Hydra Canvas */}
       <HydraCanvas />
 
-       {/* Background Video */}
+       {/* Video */}
        <section className="relative w-full ">
-       <BackgroundVideo src="/gallery/x_x_x_x.mp4"/>
+       <SetVideo src="/gallery/x_x_x_x.mp4"/>
       </section>
     </div>
   );

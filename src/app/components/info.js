@@ -1,9 +1,8 @@
-import BackgroundVideo from "./bgvideo";
 export default function Info() {
     return (
       <div className="container max-w-5xl mx-auto  p-8">
         
-        <div className="bg-black/30 backdrop-blur-lg text-center px-4 text-white pb-8 pt-8 rounded-2xl drop-shadow-lg border-b-2 border-green-500">
+        <div className="bg-black/30 backdrop-blur-lg text-center px-4 text-white pb-8 pt-8 rounded-2xl drop-shadow-lg border-b-2 border-green-500 user-select: none">
           <p className="text-md md:text-2xl text-justify">
               <span className="text-green-500">AI</span>Parasytes refleja la idea central del proyecto: la IA como un ente que consume,
               modifica y parasitiza la realidad. En este mundo, la máquina no es una herramienta que sirve al humano,

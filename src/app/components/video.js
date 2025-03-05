@@ -1,4 +1,4 @@
-const BackgroundVideo = ({ src }) => {
+const SetVideo = ({ src }) => {
   return (
     <div className="relative z-20 flex justify-center items-center w-full h-full">
       <video
@@ -15,4 +15,4 @@ const BackgroundVideo = ({ src }) => {
   );
 };
 
-export default BackgroundVideo;
+export default SetVideo;
