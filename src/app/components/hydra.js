@@ -72,13 +72,21 @@ const HydraCanvas = ({ isCameraActive }) => {
         .out(o0);
       ////////////////////HYDRA/////////////////////
     } else {
+      osc(60, -0.029, 0.038)
+      .diff(osc(50, 0.001))
+      .modulateScale(noise(1, 0.001)).modulateScale(osc(4,0.03))
+      .contrast(1.8)
+      .add(src(o0))
+      .brightness(-0.01)
+      .contrast(0.15)
+      .out();
       // Detener el video
       if (videoStream) {
         videoStream.getTracks().forEach((track) => track.stop());
         setVideoStream(null);
+        s0.clear();
       }
-
-      s0.clear();
+      
     }
   }, [isCameraActive, hydraInstance]);
 
