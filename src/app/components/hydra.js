@@ -50,7 +50,7 @@ const HydraCanvas = ({ isCameraActive }) => {
     if (isCameraActive) {
       if (navigator.mediaDevices?.getUserMedia) {
         navigator.mediaDevices
-          .getUserMedia({ video: true })
+          .getUserMedia({ video: { facingMode: "environment" } })
           .then((stream) => {
             setVideoStream(stream);
             if (videoRef.current) {
