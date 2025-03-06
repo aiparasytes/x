@@ -24,7 +24,7 @@ export default function Sidebar() {
     animate={{
         width: expanded
         ? isMobile
-            ? "90%"  // 80% en dispositivos móviles
+            ? "100%"  // 80% en dispositivos móviles
             : 150    // 150px en pantallas más grandes
         : isMobile
         ? 18
