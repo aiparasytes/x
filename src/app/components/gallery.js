@@ -15,7 +15,7 @@ export default function Gallery() {
             width={600}
             height={400}
             className="w-full h-auto rounded-lg"
-            priority
+            priority={'true'}
           />
         </div>
       ))}
