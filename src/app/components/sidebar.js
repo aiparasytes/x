@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Briefcase } from "lucide-react";
+import Link from "next/link";
 
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -37,7 +38,9 @@ export default function Sidebar() {
     >
 
       <SidebarItem icon={<Mail size={24} />} text="Contacto" expanded={expanded} />
-      <SidebarItem icon={<Briefcase size={24} />} text="Servicios" expanded={expanded} />
+      <Link href="/services">
+        <SidebarItem icon={<Briefcase size={24} />} text="Servicios" expanded={expanded} />
+      </Link>    
     </motion.div>
   );
 }

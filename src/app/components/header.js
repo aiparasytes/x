@@ -13,7 +13,7 @@ export default function Header({ onCameraToggle }) {
   return (
     <header className="text-white pb-6 relative flex items-center w-full">
       {/* Título centrado */}
-      <h1 className={`text-2xl md:text-4xl font-bold  absolute left-1/2 transform -translate-x-1/2 ${isCameraActive ? 'text-black' : 'text-white'}`}>
+      <h1 className={`text-4xl md:text-6xl font-bold  absolute left-1/2 transform -translate-x-1/2 ${isCameraActive ? 'text-black' : 'text-white'}`}>
         <span className="text-green-500">AI</span>Parasytes
       </h1>
       
