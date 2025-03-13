@@ -25,11 +25,11 @@ export default function Sidebar() {
       animate={{
         width: expanded
           ? isMobile
-            ? "100%"  // 80% en dispositivos móviles
-            : 150    // 150px en pantallas más grandes
+            ? "calc(100% - 2rem)" // Restar el padding de la galería (2rem)
+            : "150px"               // 150px en pantallas más grandes
           : isMobile
-          ? 18
-          : 50
+          ? "calc(12px + 1rem)" // Mínimo en móvil ajustado con el padding
+          : "calc(50px + 2rem)" // Mínimo en pantallas grandes ajustado con el padding
       }}
       transition={{ duration: 0.3 }}
       onMouseEnter={() => setExpanded(true)}
