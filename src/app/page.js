@@ -16,13 +16,6 @@ export default function Home() {
     console.log(isCameraActive);
   };
 
-  useEffect(() => {
-    const isInstagramWebView = navigator.userAgent.includes("Instagram");
-
-    if (isInstagramWebView) {
-      window.location.href = "https://aiparasytes.xyz/";
-    }
-  }, []);
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat relative">
       <section className="relative w-full py-10 z-30">
