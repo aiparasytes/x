@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Briefcase } from "lucide-react";
+import { Mail, Briefcase, ScanLine } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar() {
@@ -20,27 +20,25 @@ export default function Sidebar() {
 
   return (
     <motion.div
-    className="fixed right-0 top-1/4 h-40 bg-black/60 border-t-2 border-l-2 border-b-2 border-green-500 backdrop-blur-md rounded-l-2xl flex flex-col items-center py-4 space-y-4 text-green-500 z-50 shadow-lg"
-    initial={{ width: isMobile ? 30 : 100 }}
-    animate={{
+      className="fixed right-0 top-1/4 bg-black/60 border-t-2 border-l-2 border-b-2 border-green-500 backdrop-blur-md rounded-l-2xl flex flex-col items-center py-4 space-y-4 text-green-500 z-50 shadow-lg"
+      initial={{ width: isMobile ? 30 : 100 }}
+      animate={{
         width: expanded
-        ? isMobile
+          ? isMobile
             ? "100%"  // 80% en dispositivos móviles
             : 150    // 150px en pantallas más grandes
-        : isMobile
-        ? 18
-        : 50
-    }}
-    transition={{ duration: 0.3 }}
-    onMouseEnter={() => setExpanded(true)}
-    onMouseLeave={() => setExpanded(false)}
-    onTouchStart={() => setExpanded(true)}
+          : isMobile
+          ? 18
+          : 50
+      }}
+      transition={{ duration: 0.3 }}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
+      onTouchStart={() => setExpanded(true)}
     >
-
-      <SidebarItem icon={<Mail size={24} />} text="Contacto" expanded={expanded} />
-      <Link href="/services">
-        <SidebarItem icon={<Briefcase size={24} />} text="Servicios" expanded={expanded} />
-      </Link>    
+      <Link href="/prints">
+        <SidebarItem icon={<ScanLine size={24} />} text="Scan" expanded={expanded} />
+      </Link>
     </motion.div>
   );
 }
@@ -48,7 +46,7 @@ export default function Sidebar() {
 function SidebarItem({ icon, text, expanded }) {
   return (
     <motion.div
-      className="flex items-center space-x-2 cursor-pointer px-2 py-1"
+      className="flex items-center justify-center space-x-2 cursor-pointer px-2 py-1"
       initial={{ opacity: 0 }}
       animate={{ opacity: expanded ? 1 : 0 }}
       transition={{ duration: 0.2 }}
