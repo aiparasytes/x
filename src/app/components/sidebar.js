@@ -36,9 +36,10 @@ export default function Sidebar() {
       onMouseLeave={() => setExpanded(false)}
       onTouchStart={() => setExpanded(true)}
     >
-      <Link href="/prints">
+      <Link href="/prints" target="_blank">
         <SidebarItem icon={<ScanLine size={24} />} text="Scan" expanded={expanded} />
       </Link>
+
     </motion.div>
   );
 }
