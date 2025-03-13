@@ -34,7 +34,7 @@ git
         <Sidebar />
         <Info />
         <Gallery />
-        <SetVideo src="/gallery/x_x_x_x.mp4" />
+        
       </section>
       <HydraCanvas isCameraActive={isCameraActive} />
     </div>
