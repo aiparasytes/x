@@ -5,24 +5,49 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1741989236/targets/emdgisghn9zcxqewpjo8.mind;" vr-mode-ui="enabled: false" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene 
+      mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1741989236/targets/emdgisghn9zcxqewpjo8.mind;"
+      vr-mode-ui="enabled: false"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      device-orientation-permission-ui="enabled: false"
+    >
       <a-assets>
-        <video id="myVideo" src="https://res.cloudinary.com/dp39ooacq/video/upload/v1741990250/mindar_video/pwphvyd06gcnqjv25zjz.mp4" autoplay="true" loop="true" crossorigin="anonymous"></video>
+        <video 
+          id="myVideo" 
+          src="https://res.cloudinary.com/dp39ooacq/video/upload/v1741990250/mindar_video/pwphvyd06gcnqjv25zjz.mp4"
+          loop 
+          crossorigin="anonymous"
+        ></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0">
+      <a-entity mindar-image-target="targetIndex: 0" id="target">
         <a-video 
           src="#myVideo" 
           position="0 0 0.1" 
           rotation="0 0 0" 
-          scale="0.9 1.6 1"
-          autoplay="true"
-          loop="true"
-          crossorigin="anonymous"
+          scale="0.5625 1 1"
         ></a-video>
       </a-entity>
     </a-scene>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const video = document.getElementById("myVideo");
+        const target = document.getElementById("target");
+
+        target.addEventListener("targetFound", () => {
+          console.log("Target detectado: reproduciendo video");
+          video.play();
+        });
+
+        target.addEventListener("targetLost", () => {
+          console.log("Target perdido: pausando video");
+          video.pause();
+        });
+      });
+    </script>
   </body>
 </html>
