@@ -30,7 +30,6 @@ export default function Home() {
         <Sidebar />
         <Info />
         <Gallery />
-        
       </section>
       <HydraCanvas isCameraActive={isCameraActive} />
     </div>
