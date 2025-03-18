@@ -11,78 +11,46 @@
       vr-mode-ui="enabled: false"
     >
       <a-assets>
-        <video 
-          id="digital_human" 
-          src="https://res.cloudinary.com/dp39ooacq/video/upload/v1741990250/mindar_video/pwphvyd06gcnqjv25zjz.mp4"
-          loop 
-          crossorigin="anonymous"
-        ></video>
-        <video 
-          id="hacker_android" 
-          src="https://res.cloudinary.com/dp39ooacq/video/upload/v1742328809/mindar_video/dhdq1ujbne1crcd9mapo.mp4"
-          loop 
-          crossorigin="anonymous"
-        ></video>
+        <video id="digital_human" 
+               src="https://res.cloudinary.com/dp39ooacq/video/upload/v1741990250/mindar_video/pwphvyd06gcnqjv25zjz.mp4" 
+               loop crossorigin="anonymous">
+        </video>
+        <video id="hacker_android" 
+               src="https://res.cloudinary.com/dp39ooacq/video/upload/v1742328809/mindar_video/dhdq1ujbne1crcd9mapo.mp4" 
+               loop crossorigin="anonymous">
+        </video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-entity mindar-image-target="targetIndex: 0" id="target" >
-        <a-video 
-          src="#digital_human" 
-          position="0 0 0.1" 
-          rotation="0 0 0" 
-          scale="0.9 1.6 1"
-        ></a-video>
+      <a-entity mindar-image-target="targetIndex: 3" class="target">
+        <a-video src="#digital_human" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
       </a-entity>
-      <a-entity mindar-image-target="targetIndex: 1" id="target" >
-        <a-video 
-          src="#myVideo" 
-          position="0 0 0.1" 
-          rotation="0 0 0" 
-          scale="0.9 1.6 1"
-        ></a-video>
-      </a-entity>
-      <a-entity mindar-image-target="targetIndex: 2" id="target" >
-        <a-video 
-          src="#hacker_android" 
-          position="0 0 0.1" 
-          rotation="0 0 0" 
-          scale="0.9 1.6 1"
-        ></a-video>
-      </a-entity>
-      <a-entity mindar-image-target="targetIndex: 3" id="target" >
-        <a-video 
-          src="#myVideo" 
-          position="0 0 0.1" 
-          rotation="0 0 0" 
-          scale="0.9 1.6 1"
-        ></a-video>
-      </a-entity>
-      <a-entity mindar-image-target="targetIndex: 4" id="target" >
-        <a-video 
-          src="#myVideo" 
-          position="0 0 0.1" 
-          rotation="0 0 0" 
-          scale="0.9 1.6 1"
-        ></a-video>
+      
+      <a-entity mindar-image-target="targetIndex: 2" class="target">
+        <a-video src="#hacker_android" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
       </a-entity>
 
     </a-scene>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const video = document.getElementById("myVideo");
-        const target = document.getElementById("target");
+        const targets = document.querySelectorAll(".target");
 
-        target.addEventListener("targetFound", () => {
-          console.log("Target detectado: reproduciendo video");
-          video.play();
-        });
+        targets.forEach(target => {
+          const video = target.querySelector("a-video");
 
-        target.addEventListener("targetLost", () => {
-          console.log("Target perdido: pausando video");
-          video.pause();
+          target.addEventListener("targetFound", () => {
+            console.log("Target detectado:", video.getAttribute("src"));
+            const videoElement = document.querySelector(video.getAttribute("src"));
+            videoElement.play();
+          });
+
+          target.addEventListener("targetLost", () => {
+            console.log("Target perdido:", video.getAttribute("src"));
+            const videoElement = document.querySelector(video.getAttribute("src"));
+            videoElement.pause();
+          });
         });
       });
     </script>
