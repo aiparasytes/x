@@ -6,14 +6,20 @@
   </head>
   <body>
     <a-scene 
-      mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1741989236/targets/emdgisghn9zcxqewpjo8.mind;"
+      mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1742328528/targets/qnknux8uw0sn8jzipkj1.mind;"
       stats
       vr-mode-ui="enabled: false"
     >
       <a-assets>
         <video 
-          id="myVideo" 
+          id="digital_human" 
           src="https://res.cloudinary.com/dp39ooacq/video/upload/v1741990250/mindar_video/pwphvyd06gcnqjv25zjz.mp4"
+          loop 
+          crossorigin="anonymous"
+        ></video>
+        <video 
+          id="hacker_android" 
+          src="https://res.cloudinary.com/dp39ooacq/video/upload/v1742328809/mindar_video/dhdq1ujbne1crcd9mapo.mp4"
           loop 
           crossorigin="anonymous"
         ></video>
@@ -23,12 +29,45 @@
 
       <a-entity mindar-image-target="targetIndex: 0" id="target" >
         <a-video 
+          src="#digital_human" 
+          position="0 0 0.1" 
+          rotation="0 0 0" 
+          scale="0.9 1.6 1"
+        ></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 1" id="target" >
+        <a-video 
           src="#myVideo" 
           position="0 0 0.1" 
           rotation="0 0 0" 
           scale="0.9 1.6 1"
         ></a-video>
       </a-entity>
+      <a-entity mindar-image-target="targetIndex: 2" id="target" >
+        <a-video 
+          src="#hacker_android" 
+          position="0 0 0.1" 
+          rotation="0 0 0" 
+          scale="0.9 1.6 1"
+        ></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 3" id="target" >
+        <a-video 
+          src="#myVideo" 
+          position="0 0 0.1" 
+          rotation="0 0 0" 
+          scale="0.9 1.6 1"
+        ></a-video>
+      </a-entity>
+      <a-entity mindar-image-target="targetIndex: 4" id="target" >
+        <a-video 
+          src="#myVideo" 
+          position="0 0 0.1" 
+          rotation="0 0 0" 
+          scale="0.9 1.6 1"
+        ></a-video>
+      </a-entity>
+
     </a-scene>
 
     <script>
