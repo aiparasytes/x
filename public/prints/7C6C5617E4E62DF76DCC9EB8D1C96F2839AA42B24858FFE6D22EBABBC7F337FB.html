@@ -9,7 +9,6 @@
         overflow: hidden;
       }
 
-      /* Estilo para los botones */
       #startRecording, #stopRecording {
         position: absolute;
         bottom: 20px; /* Coloca los botones en la parte inferior */
@@ -61,40 +60,6 @@
     <button id="stopRecording" disabled>Stop & Download</button>
 
     <script>
-      // Función para verificar y usar la cámara
-      async function checkAndUseCamera() {
-        try {
-          // Intentar obtener la cámara trasera (environment)
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment" },
-            audio: true
-          });
-          
-          // Si tiene éxito, significa que la cámara trasera está disponible
-          console.log("Cámara trasera en uso");
-          return stream;
-          
-        } catch (error) {
-          console.log("Cámara trasera no disponible, intentando cámara frontal...");
-          
-          try {
-            // Si la cámara trasera falla, intentamos la cámara frontal (user)
-            const stream = await navigator.mediaDevices.getUserMedia({
-              video: { facingMode: "user" },
-              audio: true
-            });
-            
-            console.log("Cámara frontal en uso");
-            return stream;
-            
-          } catch (error) {
-            console.error("Error al acceder a la cámara:", error);
-            alert("No se pudo acceder a ninguna cámara.");
-            return null;
-          }
-        }
-      }
-
       document.addEventListener("DOMContentLoaded", async () => {
         const targets = document.querySelectorAll(".target");
 
@@ -119,9 +84,10 @@
         let recordedChunks = [];
 
         try {
-          const stream = await checkAndUseCamera();
-
-          if (!stream) return; // Si no hay acceso a la cámara, detenemos la ejecución
+          const stream = await navigator.mediaDevices.getDisplayMedia({
+            video: { mediaSource: "screen" }, // Graba la pantalla, incluyendo el canvas de A-Frame
+            audio: true
+          });
 
           mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
 
