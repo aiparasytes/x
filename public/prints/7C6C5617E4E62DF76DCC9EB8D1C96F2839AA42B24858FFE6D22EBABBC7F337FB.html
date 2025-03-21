@@ -8,27 +8,30 @@
         margin: 0;
         overflow: hidden;
       }
+
+      /* Estilo para los botones */
       #startRecording, #stopRecording {
-        position: fixed;
-        top: 20px;
-        left: 20px;
+        position: absolute;
+        bottom: 20px; /* Coloca los botones en la parte inferior */
+        right: 20px; /* Coloca los botones en la esquina derecha */
         padding: 10px 20px;
         font-size: 16px;
         background-color: rgba(0, 0, 0, 0.7);
         color: white;
         border: none;
         cursor: pointer;
-        z-index: 10; /* Asegura que los botones estén por encima de la escena */
+        z-index: 10;
+        display: block; /* Los botones inicialmente estarán visibles, pero uno será ocultado después */
       }
+
       #stopRecording {
-        left: 160px; /* Coloca el botón "Detener y Descargar" a la derecha */
+        display: none; /* Oculta el botón "Stop" al principio */
       }
     </style>
   </head>
   <body>
     <a-scene 
       mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1742328528/targets/qnknux8uw0sn8jzipkj1.mind;"
-      
       vr-mode-ui="enabled: false"
     >
       <a-assets>
@@ -58,6 +61,40 @@
     <button id="stopRecording" disabled>Stop & Download</button>
 
     <script>
+      // Función para verificar y usar la cámara
+      async function checkAndUseCamera() {
+        try {
+          // Intentar obtener la cámara trasera (environment)
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" },
+            audio: true
+          });
+          
+          // Si tiene éxito, significa que la cámara trasera está disponible
+          console.log("Cámara trasera en uso");
+          return stream;
+          
+        } catch (error) {
+          console.log("Cámara trasera no disponible, intentando cámara frontal...");
+          
+          try {
+            // Si la cámara trasera falla, intentamos la cámara frontal (user)
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "user" },
+              audio: true
+            });
+            
+            console.log("Cámara frontal en uso");
+            return stream;
+            
+          } catch (error) {
+            console.error("Error al acceder a la cámara:", error);
+            alert("No se pudo acceder a ninguna cámara.");
+            return null;
+          }
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", async () => {
         const targets = document.querySelectorAll(".target");
 
@@ -82,7 +119,9 @@
         let recordedChunks = [];
 
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: true });
+          const stream = await checkAndUseCamera();
+
+          if (!stream) return; // Si no hay acceso a la cámara, detenemos la ejecución
 
           mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
 
@@ -107,14 +146,16 @@
           document.getElementById("startRecording").addEventListener("click", () => {
             recordedChunks = [];
             mediaRecorder.start();
-            document.getElementById("startRecording").disabled = true;
-            document.getElementById("stopRecording").disabled = false;
+            document.getElementById("startRecording").style.display = "none"; // Ocultar botón Record
+            document.getElementById("stopRecording").style.display = "block"; // Mostrar botón Stop
+            document.getElementById("stopRecording").disabled = false; // Habilitar Stop
           });
 
           document.getElementById("stopRecording").addEventListener("click", () => {
             mediaRecorder.stop();
-            document.getElementById("startRecording").disabled = false;
-            document.getElementById("stopRecording").disabled = true;
+            document.getElementById("startRecording").style.display = "block"; // Mostrar botón Record
+            document.getElementById("stopRecording").style.display = "none"; // Ocultar botón Stop
+            document.getElementById("stopRecording").disabled = true; // Deshabilitar Stop
           });
 
         } catch (error) {
