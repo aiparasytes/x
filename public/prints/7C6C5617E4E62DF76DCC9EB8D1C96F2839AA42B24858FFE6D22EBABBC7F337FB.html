@@ -7,7 +7,7 @@
       #startRecording, #stopRecording {
         position: absolute;
         bottom: 20px;
-        right: 100px;
+        right: 90px;
         padding: 10px 10px;
         font-size: 10px;
         background-color: rgba(0, 0, 0, 0.7);
@@ -56,36 +56,22 @@
     <button id="stopRecording" disabled>Stop & Download</button>
 
     <script>
-      // Función para verificar y usar la cámara
-      async function checkAndUseCamera() {
+      // Función para capturar la pantalla
+      async function captureScreen() {
         try {
-          // Intentar obtener la cámara trasera (environment)
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment" },
-            audio: true
+          // Solicitar acceso a la pantalla
+          const stream = await navigator.mediaDevices.getDisplayMedia({
+            video: { mediaSource: "screen" }, // Cambiar "screen" a "window" si deseas capturar una ventana específica
+            audio: true  // Si deseas grabar también el audio de la pantalla
           });
-          
-          console.log("Cámara trasera en uso");
+
+          console.log("Pantalla en uso");
           return stream;
-          
+
         } catch (error) {
-          console.log("Cámara trasera no disponible, intentando cámara frontal...");
-          
-          try {
-            // Si la cámara trasera falla, intentamos la cámara frontal (user)
-            const stream = await navigator.mediaDevices.getUserMedia({
-              video: { facingMode: "user" },
-              audio: true
-            });
-            
-            console.log("Cámara frontal en uso");
-            return stream;
-            
-          } catch (error) {
-            console.error("Error al acceder a la cámara:", error);
-            alert("No se pudo acceder a ninguna cámara.");
-            return null;
-          }
+          console.error("Error al acceder a la pantalla:", error);
+          alert("No se pudo acceder a la pantalla.");
+          return null;
         }
       }
 
@@ -111,11 +97,26 @@
         let mediaRecorder;
         let recordedChunks = [];
 
-        try {
-          const stream = await checkAndUseCamera();
+        // Evento para iniciar la grabación
+        document.getElementById("startRecording").addEventListener("click", async () => {
+          const stream = await captureScreen();
 
           if (!stream) return;
 
+          // Obtener la resolución máxima disponible de la pantalla
+          const screenWidth = screen.width; // Resolución horizontal
+          const screenHeight = screen.height; // Resolución vertical
+
+          console.log("Resolución de pantalla:", screenWidth, screenHeight);
+
+          // Configurar el canvas con la resolución máxima de la pantalla
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+
+          canvas.width = screenWidth;
+          canvas.height = screenHeight;
+
+          // Configurar el MediaRecorder para la grabación en la resolución máxima
           mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
 
           mediaRecorder.ondataavailable = (event) => {
@@ -129,31 +130,26 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "video_ra.webm";
+            a.download = "screen_recording.webm";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
           };
 
-          // Eventos de los botones
-          document.getElementById("startRecording").addEventListener("click", () => {
-            recordedChunks = [];
-            mediaRecorder.start();
-            document.getElementById("startRecording").style.display = "none";
-            document.getElementById("stopRecording").style.display = "block";
-            document.getElementById("stopRecording").disabled = false;
-          });
+          recordedChunks = [];
+          mediaRecorder.start();
+          document.getElementById("startRecording").style.display = "none";
+          document.getElementById("stopRecording").style.display = "block";
+          document.getElementById("stopRecording").disabled = false;
+        });
 
-          document.getElementById("stopRecording").addEventListener("click", () => {
-            mediaRecorder.stop();
-            document.getElementById("startRecording").style.display = "block";
-            document.getElementById("stopRecording").style.display = "none";
-            document.getElementById("stopRecording").disabled = true;
-          });
-
-        } catch (error) {
-          console.error("Error al acceder a la cámara:", error);
-        }
+        // Evento para detener la grabación
+        document.getElementById("stopRecording").addEventListener("click", () => {
+          mediaRecorder.stop();
+          document.getElementById("startRecording").style.display = "block";
+          document.getElementById("stopRecording").style.display = "none";
+          document.getElementById("stopRecording").disabled = true;
+        });
       });
     </script>
   </body>
