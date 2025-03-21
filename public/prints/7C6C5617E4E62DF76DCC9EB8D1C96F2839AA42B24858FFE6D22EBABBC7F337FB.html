@@ -3,11 +3,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #startRecording, #stopRecording {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 10; /* Asegura que los botones estén por encima de la escena */
+      }
+      #stopRecording {
+        left: 160px; /* Coloca el botón "Detener y Descargar" a la derecha */
+      }
+    </style>
   </head>
   <body>
     <a-scene 
       mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1742328528/targets/qnknux8uw0sn8jzipkj1.mind;"
-      stats
+      
       vr-mode-ui="enabled: false"
     >
       <a-assets>
@@ -30,11 +51,14 @@
       <a-entity mindar-image-target="targetIndex: 2" class="target">
         <a-video src="#hacker_android" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
       </a-entity>
-
     </a-scene>
 
+    <!-- Botones para grabar -->
+    <button id="startRecording">Record</button>
+    <button id="stopRecording" disabled>Stop & Download</button>
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         const targets = document.querySelectorAll(".target");
 
         targets.forEach(target => {
@@ -52,6 +76,50 @@
             videoElement.pause();
           });
         });
+
+        // Configurar grabación de video
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: true });
+
+          mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              recordedChunks.push(event.data);
+            }
+          };
+
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: "video/webm" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "video_ra.webm";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          };
+
+          // Eventos de los botones
+          document.getElementById("startRecording").addEventListener("click", () => {
+            recordedChunks = [];
+            mediaRecorder.start();
+            document.getElementById("startRecording").disabled = true;
+            document.getElementById("stopRecording").disabled = false;
+          });
+
+          document.getElementById("stopRecording").addEventListener("click", () => {
+            mediaRecorder.stop();
+            document.getElementById("startRecording").disabled = false;
+            document.getElementById("stopRecording").disabled = true;
+          });
+
+        } catch (error) {
+          console.error("Error al acceder a la cámara:", error);
+        }
       });
     </script>
   </body>
