@@ -3,60 +3,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-    <style>
-      
-
-      
-      
-
-      
-
-      
-    </style>
   </head>
   <body>
     <a-scene mindar-image="imageTargetSrc: https://res.cloudinary.com/dp39ooacq/raw/upload/v1742328528/targets/qnknux8uw0sn8jzipkj1.mind;" vr-mode-ui="enabled: false">
       <a-assets>
         <video id="digital_human" 
                src="https://res.cloudinary.com/dp39ooacq/video/upload/v1743359057/mindar_video/topp9h4bg89qyhtvvjgz.mp4" 
-               loop crossorigin="anonymous">
+               loop crossorigin="anonymous" playsinline>
         </video>
         <video id="hacker_android" 
                src="https://res.cloudinary.com/dp39ooacq/video/upload/v1742328809/mindar_video/dhdq1ujbne1crcd9mapo.mp4" 
-               loop crossorigin="anonymous">
+               loop crossorigin="anonymous" playsinline>
         </video>
-      </a-assets>
+      </a-assets><a-camera id="mainCamera" position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <a-camera id="mainCamera" position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-entity mindar-image-target="targetIndex: 3" class="target" data-video="#digital_human">
+    <a-video src="#digital_human" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
+  </a-entity>
 
-      <a-entity mindar-image-target="targetIndex: 3" class="target">
-        <a-video src="#digital_human" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
-      </a-entity>
+  <a-entity mindar-image-target="targetIndex: 2" class="target" data-video="#hacker_android">
+    <a-video src="#hacker_android" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
+  </a-entity>
+</a-scene>
 
-      <a-entity mindar-image-target="targetIndex: 2" class="target">
-        <a-video src="#hacker_android" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
-      </a-entity>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const targets = document.querySelectorAll(".target");
 
-    </a-scene>
+    targets.forEach(target => {
+      const videoId = target.getAttribute("data-video");
+      const videoElement = document.querySelector(videoId);
 
-    <script>
-      
+      target.addEventListener("targetFound", () => {
+        videoElement.play();
+      });
 
-      document.addEventListener("DOMContentLoaded", async () => {
-        const targets = document.querySelectorAll(".target");
+      target.addEventListener("targetLost", () => {
+        videoElement.pause();
+      });
+    });
+  });
+</script>
 
-        targets.forEach(target => {
-          const video = target.querySelector("a-video");
-          target.addEventListener("targetFound", () => {
-            const videoElement = document.querySelector(video.getAttribute("src"));
-            videoElement.play();
-          });
-          target.addEventListener("targetLost", () => {
-            const videoElement = document.querySelector(video.getAttribute("src"));
-            videoElement.pause();
-          });
-        });
-
-    </script>
   </body>
 </html>
