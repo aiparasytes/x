@@ -4,61 +4,14 @@
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
-      #startRecording, #stopRecording {
-        position: absolute;
-        bottom: 20px;
-        right: 90px;
-        padding: 10px 10px;
-        font-size: 10px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        border-radius: 100%;
-        cursor: pointer;
-        z-index: 10;
-        display: block;
-      }
+      
 
-      #stopRecording {
-        display: none;
-      }
+      
+      
 
-      /* Estilo del canvas que se usará como espectador */
-      #spectatorCanvas {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 500px;  /* Tamaño definido en CSS */
-        height: 500px;
-        border: 1px solid #fff;
-        z-index: 10;
-      }
+      
 
-      /* Estilo del canvas para mostrar la imagen de la webcam */
-      #webcamCanvas {
-        position: absolute;
-        top: 525px;
-        right: 20px;
-        width: 500px;  /* Tamaño definido en CSS */
-        height: 500px;
-        border: 1px solid #fff;
-        z-index: 10;
-      }
-
-      /* Estilo del botón para guardar la imagen combinada */
-      #saveImage {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        padding: 10px;
-        font-size: 10px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        border-radius: 100%;
-        cursor: pointer;
-        z-index: 10;
-      }
+      
     </style>
   </head>
   <body>
@@ -84,33 +37,10 @@
         <a-video src="#hacker_android" position="0 0 0.1" rotation="0 0 0" scale="0.9 1.6 1"></a-video>
       </a-entity>
 
-      <!-- El canvas que se utilizará para mostrar la vista espectador -->
-      <canvas id="spectatorCanvas"></canvas>
-      <!-- Canvas para mostrar la imagen de la webcam -->
-      <canvas id="webcamCanvas"></canvas>
     </a-scene>
 
-    <button id="startRecording">Record</button>
-    <button id="stopRecording" disabled>Stop & Download</button>
-
-    <!-- Botón para guardar la imagen combinada -->
-    <button id="saveImage">Save Mixed Image</button>
-
     <script>
-      // Función para capturar la pantalla
-      async function captureScreen() {
-        try {
-          const stream = await navigator.mediaDevices.getDisplayMedia({
-            video: { mediaSource: "screen", width: screen.width, height: screen.height },
-            audio: true
-          });
-          return stream;
-        } catch (error) {
-          console.error("Error al acceder a la pantalla:", error);
-          alert("No se pudo acceder a la pantalla.");
-          return null;
-        }
-      }
+      
 
       document.addEventListener("DOMContentLoaded", async () => {
         const targets = document.querySelectorAll(".target");
@@ -127,131 +57,6 @@
           });
         });
 
-        let mediaRecorder;
-        let recordedChunks = [];
-
-        document.getElementById("startRecording").addEventListener("click", async () => {
-          // Crear un stream para grabar el contenido del canvas de Three.js
-          const canvas = document.getElementById("spectatorCanvas");
-
-          // Crear un stream a partir del canvas (usando el canvas como fuente)
-          const stream = canvas.captureStream(30); // 30 FPS
-          if (!stream) return;
-
-          mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
-
-          mediaRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-              recordedChunks.push(event.data);
-            }
-          };
-
-          mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: "video/webm" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "threejs_recording.webm";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-          };
-
-          recordedChunks = [];
-          mediaRecorder.start();
-          document.getElementById("startRecording").style.display = "none";
-          document.getElementById("stopRecording").style.display = "block";
-          document.getElementById("stopRecording").disabled = false;
-        });
-
-        document.getElementById("stopRecording").addEventListener("click", () => {
-          mediaRecorder.stop();
-          document.getElementById("startRecording").style.display = "block";
-          document.getElementById("stopRecording").style.display = "none";
-          document.getElementById("stopRecording").disabled = true;
-        });
-
-        // Usar el canvas de espectador
-        const scene = document.querySelector('a-scene');
-        const camera = document.querySelector('#mainCamera');
-        const spectatorCanvas = document.getElementById('spectatorCanvas');
-        const renderer = scene.systems.renderer;
-
-        // Crear un renderizador adicional para el canvas de espectador
-        const spectatorRenderer = new THREE.WebGLRenderer({ canvas: spectatorCanvas, alpha: true });
-
-        // Obtener el tamaño del canvas para ajustarlo dinámicamente
-        const width = spectatorCanvas.offsetWidth;
-        const height = spectatorCanvas.offsetHeight;
-
-        // Ajustar el tamaño del renderizador al tamaño del canvas
-        spectatorRenderer.setSize(width, height);
-
-        // Verificar si la cámara está lista antes de usarla
-        camera.addEventListener('loaded', function () {
-          const aframeCamera = camera.object3D.children[0];  // La cámara de THREE.js
-
-          // Renderizar lo que ve la cámara en el canvas de espectador
-          function renderSpectator() {
-            spectatorRenderer.render(scene.object3D, aframeCamera);  // Renderizando usando la cámara correcta
-          }
-
-          // Animación para renderizar constantemente
-          function animate() {
-            renderSpectator();
-            window.requestAnimationFrame(animate);  // Usar window.requestAnimationFrame para una mejor sincronización
-          }
-
-          animate();  // Iniciar el ciclo de renderizado del espectador
-        });
-
-        // Usar el canvas para la webcam
-        const webcamCanvas = document.getElementById('webcamCanvas');
-        const webcamContext = webcamCanvas.getContext('2d');
-        
-        // Capturar la webcam y mostrarla en el canvas
-        const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const videoElement = document.createElement('video');
-        videoElement.srcObject = videoStream;
-        videoElement.play();
-
-        videoElement.addEventListener('play', function () {
-          function renderWebcam() {
-            webcamContext.drawImage(videoElement, 0, 0, webcamCanvas.width, webcamCanvas.height);
-            requestAnimationFrame(renderWebcam);
-          }
-          renderWebcam();
-        });
-
-        // Función para guardar la imagen combinada de los canvas
-        function saveMixedImage() {
-          const resultCanvas = document.createElement('canvas');
-          const resultContext = resultCanvas.getContext('2d');
-
-          const width = spectatorCanvas.width;
-          const height = spectatorCanvas.height;
-
-          resultCanvas.width = width;
-          resultCanvas.height = height;
-
-          // Dibujar los dos canvas en el canvas de resultado
-          resultContext.drawImage(spectatorCanvas, 0, 0); // Dibuja el canvas del espectador
-          resultContext.globalCompositeOperation = 'source-over'; // Garantizar la superposición
-          resultContext.drawImage(webcamCanvas, 0, 0); // Dibuja el canvas de la webcam
-
-          // Guardar la imagen resultante
-          const dataURL = resultCanvas.toDataURL('image/png');
-
-          const a = document.createElement('a');
-          a.href = dataURL;
-          a.download = 'mixed_image.png';
-
-          a.click();
-        }
-
-        // Llamada para guardar la imagen mezclada cuando se haga clic en el botón
-        document.getElementById("saveImage").addEventListener("click", saveMixedImage);
-      });
     </script>
   </body>
 </html>
