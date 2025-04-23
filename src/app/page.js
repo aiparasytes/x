@@ -7,6 +7,7 @@ import P5Canvas from './components/p5js';
 import SetVideo from './components/video';
 import HydraCanvas from './components/hydra';
 import Sidebar from './components/sidebar';
+import MuuriGallery from "./components/muuriGallery";
 
 export default function Home() {
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -17,14 +18,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat relative">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+      style={{
+        backgroundImage: "url('https://res.cloudinary.com/dp39ooacq/image/upload/v1745373858/nyovhz_black_water_texture_sea._57cb758e-9a74-4708-9473-d1f61afeae66_tmnxyb.png')"
+      }}
+    >
+      <div className="bg-black/50 w-full h-full absolute top-0 left-0 z-10" />
       <section className="relative w-full py-10 z-30">
-        <Header onCameraToggle={toggleCamera} />
-        <Sidebar />
+        <Header />
+        <Sidebar onCameraToggle={toggleCamera}/>
         <Info />
-        <Gallery />
+        <MuuriGallery isCameraActive={isCameraActive}/>
       </section>
-      <HydraCanvas isCameraActive={isCameraActive} />
     </div>
   );
 }

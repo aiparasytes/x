@@ -16,8 +16,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #454545;
-    --foreground: #ededed;
+    --background: #dadada;
+    --foreground: #ff0000;
   }
 }
 
@@ -42,3 +42,111 @@ a-scene {
   height: 100vh;
   display: block;
 }
+
+/* Asegúrate de que el contenedor del grid esté bien configurado */
+.grid-container {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Estilo de cada elemento dentro del grid */
+.item {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  line-height: 200px;
+  margin: 5px;
+  z-index: 1;
+}
+
+/* Estilo del contenido dentro de cada item */
+.item-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: black;
+  font-size: 50px;
+  color: white;
+  cursor: pointer;
+}
+
+.item.box {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  margin: 5px;
+  z-index: 1;
+}
+
+.item.horizontal {
+  position: absolute;
+  width: 710px;
+  height: 350px;
+  line-height: 300px;
+  z-index: 1;
+}
+
+.item.vertical {
+  position: absolute;
+  width: 350px;  
+  height: 710px;  
+  line-height: 610px;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .item.box {
+    width: 200px;
+    height: 200px;
+  }
+
+  .item.horizontal {
+    width: 410px;
+    height: 200px;
+    line-height: 150px;
+  }
+
+  .item.vertical {
+    width: 200px;
+    height: 410px;
+    line-height: 310px;
+  }
+}
+
+/* Evitar que los elementos sean ocultados cuando son arrastrados */
+.item.muuri-item-dragging {
+  z-index: 3;
+}
+
+.item.muuri-item-releasing {
+  z-index: 2;
+}
+
+.item.muuri-item-hidden {
+  z-index: 0;
+}
+
+/* Estilos para el contenido multimedia */
+iframe, video, .item-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Estilo para el "item" vacío */
+.item.empty .item-content {
+  background-color: #f0f0f0;  /* Color de fondo */
+  border: 2px solid #ccc;  /* Borde opcional */
+}
+
+/* Estilo para los elementos vacíos */
+.empty-item {
+  width: 200px; /* Tamaño adecuado para los elementos vacíos */
+  height: 200px;
+  background-color: #ddd; /* Color de fondo para los elementos vacíos */
+  border: 1px solid #999; /* Borde para hacerlos más visibles */
+}
+

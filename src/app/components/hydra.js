@@ -69,6 +69,7 @@ const HydraCanvas = ({ isCameraActive }) => {
         .contrast(1.3)
         .blend(src(o0).modulate(o0, 0.5).rotate(0.1, 0.02))
         .blend(o0)
+        .invert()
         .out(o0);
       ////////////////////HYDRA/////////////////////
     } else {
@@ -78,7 +79,7 @@ const HydraCanvas = ({ isCameraActive }) => {
       .contrast(1.8)
       .add(src(o0))
       .brightness(-0.01)
-      .contrast(0.15)
+      .contrast(0.1)
       .out();
       // Detener el video
       if (videoStream) {
