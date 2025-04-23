@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ScanLine, ShoppingCart } from "lucide-react";
+import { ScanLine, ShoppingCart, SwatchBook } from "lucide-react";
 import { HiOutlineCamera } from "react-icons/hi";
 import Link from "next/link";
 
@@ -45,6 +45,7 @@ export default function Sidebar({ onCameraToggle }) {
     >
       <SidebarItem icon={<ScanLine size={20} />} text="Scan" expanded={expanded} link="/prints" />
       <SidebarItem icon={<HiOutlineCamera size={20} />} text="Mod" expanded={expanded} onClick={handleIconClick}/>
+      <SidebarItem icon={<SwatchBook size={20} />} text="Flyer" expanded={expanded} link="/flyer_services"/>
     </motion.div>
   );
 }

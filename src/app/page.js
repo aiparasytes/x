@@ -2,12 +2,9 @@
 import { useState, useEffect } from "react";
 import Header from './components/header';
 import Info from './components/info';
-import Gallery from './components/gallery';
-import P5Canvas from './components/p5js';
-import SetVideo from './components/video';
-import HydraCanvas from './components/hydra';
 import Sidebar from './components/sidebar';
 import MuuriGallery from "./components/muuriGallery";
+import { media } from './components/galleryPatches'
 
 export default function Home() {
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -29,7 +26,7 @@ export default function Home() {
         <Header />
         <Sidebar onCameraToggle={toggleCamera}/>
         <Info />
-        <MuuriGallery isCameraActive={isCameraActive}/>
+        <MuuriGallery media={media} isCameraActive={isCameraActive}/>
       </section>
     </div>
   );
