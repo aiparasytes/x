@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/components/hydraItem.js"  ],
+, "src/app/components/hydraItem.js", "src/app/components/gridStackGallery.js"  ],
   "exclude": [
     "node_modules"
   ]

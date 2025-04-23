@@ -56,7 +56,7 @@ export default function MuuriGallery({ isCameraActive }) {
         layoutDuration: 400,
         layoutEasing: 'ease',
         layout: {
-          fillGaps: false,
+          fillGaps: true,
           horizontal: false,
           alignRight: false,
           alignBottom: false,
@@ -99,12 +99,12 @@ export default function MuuriGallery({ isCameraActive }) {
           const isLocalVideo = isVideoFile(item.src);
           const isVideo = isYouTubeVideo || isLocalVideo;
 
-          const itemClass = `item ${item.size || 'box'}`;
+          const itemClass = `item bg-red ${item.size || 'box'}`;
           const resolvedSrc = item.src.startsWith('http') ? item.src : `/gallery/${item.src}`;
 
           return (
             <div className={itemClass} key={index}>
-              <div className="item-content overflow-hidden bg-black flex justify-center items-center">
+              <div className="item-content overflow-hidden  flex justify-center items-center">
                 {isHydra ? (
                   <HydraItem code={item.code} />
                 ) : isCamera ? (
@@ -129,8 +129,8 @@ export default function MuuriGallery({ isCameraActive }) {
                     alt={`Media ${index + 1}`}
                     width={600}
                     height={400}
-                    className="w-full h-auto object-cover cursor-zoom-in"
-                    onClick={() => openModal(resolvedSrc)}
+                    className="w-full h-auto object-cover"
+                    onDoubleClick={() => openModal(resolvedSrc)} // Cambié onClick por onDoubleClick
                   />
                 )}
               </div>

@@ -49,6 +49,7 @@ a-scene {
   display: grid;
   width: 100%;
   max-width: 100%;
+  justify-content: center;
 }
 
 /* Estilo de cada elemento dentro del grid */
@@ -71,6 +72,7 @@ a-scene {
   font-size: 50px;
   color: white;
   cursor: pointer;
+  
 }
 
 .item.box {
@@ -118,7 +120,7 @@ a-scene {
 }
 
 /* Móviles grandes */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .item.box {
     width: 175px;
     height: 175px;
@@ -137,25 +139,6 @@ a-scene {
   }
 }
 
-/* Móviles muy pequeños o en vertical extremo */
-@media (max-width: 480px) {
-  .item.box {
-    width: 140px;
-    height: 140px;
-  }
-
-  .item.horizontal {
-    width: 290px;
-    height: 140px;
-    line-height: 120px;
-  }
-
-  .item.vertical {
-    width: 140px;
-    height: 290px;
-    line-height: 240px;
-  }
-}
 
 
 /* Evitar que los elementos sean ocultados cuando son arrastrados */
@@ -178,17 +161,5 @@ iframe, video, .item-content img {
   object-fit: cover;
 }
 
-/* Estilo para el "item" vacío */
-.item.empty .item-content {
-  background-color: #f0f0f0;  /* Color de fondo */
-  border: 2px solid #ccc;  /* Borde opcional */
-}
 
-/* Estilo para los elementos vacíos */
-.empty-item {
-  width: 200px; /* Tamaño adecuado para los elementos vacíos */
-  height: 200px;
-  background-color: #ddd; /* Color de fondo para los elementos vacíos */
-  border: 1px solid #999; /* Borde para hacerlos más visibles */
-}
 
