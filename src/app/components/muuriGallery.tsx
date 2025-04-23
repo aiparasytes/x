@@ -34,16 +34,16 @@ export default function MuuriGallery({ isCameraActive }) {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [muuriLoaded, setMuuriLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [modalSrc, setModalSrc] = useState<string | null>(null);
   const cameraCanvasRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Ajustar según el tamaño de pantalla
+      setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // Verificar al montar el componente
+    handleResize();
     window.addEventListener('resize', handleResize);
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -69,9 +69,28 @@ export default function MuuriGallery({ isCameraActive }) {
     });
   }, []);
 
-  return (
-    <div className="p-8">
+  const openModal = (src: string) => setModalSrc(src);
+  const closeModal = () => setModalSrc(null);
 
+  return (
+    <div className="p-8 relative">
+      {/* MODAL */}
+      {modalSrc && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={closeModal}
+        >
+          <div className="max-w-full max-h-full p-4">
+            <img
+              src={modalSrc}
+              alt="Expanded"
+              className="max-w-full max-h-[90vh] object-contain"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* MUURI GRID */}
       <div ref={gridRef} className="grid-container">
         {media.map((item, index) => {
           const isHydra = item.src === 'hydra';
@@ -81,17 +100,18 @@ export default function MuuriGallery({ isCameraActive }) {
           const isVideo = isYouTubeVideo || isLocalVideo;
 
           const itemClass = `item ${item.size || 'box'}`;
-
+          const resolvedSrc = item.src.startsWith('http') ? item.src : `/gallery/${item.src}`;
 
           return (
             <div className={itemClass} key={index}>
               <div className="item-content overflow-hidden bg-black flex justify-center items-center">
                 {isHydra ? (
-                  <HydraItem
-                    code={item.code}
-                  />
+                  <HydraItem code={item.code} />
                 ) : isCamera ? (
-                  <CameraCanvas isCameraActive={isCameraActive} fallbackImage="https://res.cloudinary.com/dp39ooacq/image/upload/v1741820924/nyovhz_Three_black_sphere_collide_like_raymarching_style_floati_c6daef92-26a0-4861-a38f-3f507dd05c0c_h8igdw.png"/>
+                  <CameraCanvas
+                    isCameraActive={isCameraActive}
+                    fallbackImage="https://res.cloudinary.com/dp39ooacq/image/upload/v1741820924/nyovhz_Three_black_sphere_collide_like_raymarching_style_floati_c6daef92-26a0-4861-a38f-3f507dd05c0c_h8igdw.png"
+                  />
                 ) : isYouTubeVideo ? (
                   <iframe
                     src={getYouTubeEmbed(item.src)}
@@ -102,18 +122,15 @@ export default function MuuriGallery({ isCameraActive }) {
                     loading="lazy"
                   />
                 ) : isLocalVideo ? (
-                  <video
-                    src={item.src}
-                    controls
-                    className={''}
-                  />
+                  <video src={item.src} controls className="" />
                 ) : (
                   <Image
-                    src={item.src.startsWith('http') ? item.src : `/gallery/${item.src}`}
+                    src={resolvedSrc}
                     alt={`Media ${index + 1}`}
                     width={600}
                     height={400}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover cursor-zoom-in"
+                    onClick={() => openModal(resolvedSrc)}
                   />
                 )}
               </div>

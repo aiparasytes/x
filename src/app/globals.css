@@ -91,30 +91,72 @@ a-scene {
 
 .item.vertical {
   position: absolute;
-  width: 350px;  
-  height: 710px;  
+  width: 350px;
+  height: 710px;
   line-height: 610px;
   z-index: 1;
 }
 
-@media (max-width: 768px) {
+/* Tablet o pantallas medianas */
+@media (max-width: 1024px) {
   .item.box {
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
   }
 
   .item.horizontal {
-    width: 410px;
-    height: 200px;
+    width: 530px;
+    height: 260px;
+    line-height: 220px;
+  }
+
+  .item.vertical {
+    width: 260px;
+    height: 530px;
+    line-height: 470px;
+  }
+}
+
+/* Móviles grandes */
+@media (max-width: 768px) {
+  .item.box {
+    width: 175px;
+    height: 175px;
+  }
+
+  .item.horizontal {
+    width: 355px;
+    height: 175px;
     line-height: 150px;
   }
 
   .item.vertical {
-    width: 200px;
-    height: 410px;
+    width: 175px;
+    height: 355px;
     line-height: 310px;
   }
 }
+
+/* Móviles muy pequeños o en vertical extremo */
+@media (max-width: 480px) {
+  .item.box {
+    width: 140px;
+    height: 140px;
+  }
+
+  .item.horizontal {
+    width: 290px;
+    height: 140px;
+    line-height: 120px;
+  }
+
+  .item.vertical {
+    width: 140px;
+    height: 290px;
+    line-height: 240px;
+  }
+}
+
 
 /* Evitar que los elementos sean ocultados cuando son arrastrados */
 .item.muuri-item-dragging {
